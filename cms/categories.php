@@ -1,3 +1,14 @@
+<?php
+    session_start();
+    require_once "util.php";
+    // if not logged in then redirect to login.php
+    if (!isUserLoggedIn()) {
+        header("Location: /basic-web-development-website-and-cms/cms/index.php");
+        die();
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,23 +19,9 @@
     <title>Categories</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Categories</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#">Posts</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#">Logout</a>
-            </li>
-        </ul>
-        </div>
-    </div>
-    </nav>
+    <?php 
+        include 'navigation.php';
+    ?>
 
     <div class="container pt-4">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add New Category</button>
@@ -41,14 +38,9 @@
       <div class="modal-body">
         <form class="add_task" id="add_task" name="add_category">
             <div class="mb-3">
-                <label for="exampleInputTitle" class="form-label">Title</label>
-                <input type="text" class="form-control " name="title"  id="title" aria-describedby="titleHelp">
-                <div id="title_message"></div>
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputDescription" class="form-label">Description</label>
-                <textarea class="form-control" name="description" id="description"  col=4></textarea>
-                <div id="description_message"></div>
+                <label for="exampleInputTitle" class="form-label">Category Name</label>
+                <input type="text" class="form-control " name="category"  id="category" aria-describedby="titleHelp">
+                <div id="category_message"></div>
             </div>
             <button type="button" class="btn btn-primary" id="save_category">Save</button>
         </form>
@@ -77,4 +69,5 @@
 </div>
 
 </body>
+
 </html>

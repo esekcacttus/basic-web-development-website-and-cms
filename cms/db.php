@@ -3,7 +3,7 @@
 $host   = "127.0.0.1"; // 127.0.0.1
 $user       = "root";
 $password   = "";
-$dbName     = "basic_web";
+$dbName     = "portali";
 
 // create connection
 $dbConnection = null;
