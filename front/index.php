@@ -1,5 +1,4 @@
-
-<?php include './front/header.php';?>
+<?php include 'header.php';?>
 
 <h1 class="category_title">Category 1</h1>
 <div class="container">
