@@ -53,25 +53,15 @@ nav {
   grid-template-columns: repeat(auto-fit, minmax(550px, 3fr));
 }
 
-.card {
-  background-color: #222831;
-  height: 20rem;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.7);
-  color: white;
+.article{
+  padding: 2em;
+  border-radius: 0.3em;
+  box-shadow: 10px 10px 30px rgba(0,0,0,0.1);
 }
 
-.card__name {
-  margin-top: 15px;
-  font-size: 1.5em;
-}
-
-.card_image {
-  height: 200px;
-  width: 200px;
+.card_image{
+  width: 100px;
+  height: 100px;
 }
 
 /* Category  page css */
@@ -104,15 +94,9 @@ nav {
   margin-left: 15px;
 }
 
-
-
-.article{
-  padding: 2em;
-  border-radius: 0.3em;
-  box-shadow: 10px 10px 30px rgba(0,0,0,0.1);
-}
-
-.card_image{
-  width: 100px;
-  height: 100px;
-}
+.single_sidebar{float:left; display:inline; width:100%; margin-bottom:20px}
+.single_sidebar > h2{background:none repeat scroll 0 0 #151515; color:#fff; font-family:"Oswald",sans-serif; font-size:18px; font-weight:400; margin-bottom:10px; margin-left:0; margin-top:5px; padding:0; position:relative; text-align:center; text-transform:uppercase}
+.single_sidebar > h2 span{padding:4px 10px}
+.spost_nav li{float:left; display:block; width:100%; margin-bottom:10px}
+.spost_nav .media-left{width:100px; height:80px}
+.spost_nav .media-body > a{font-family:"Oswald",sans-serif}
