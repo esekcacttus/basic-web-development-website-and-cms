@@ -74,7 +74,7 @@ nav {
   width: 200px;
 }
 
-/* Category  page css */
+/* Categorypage css */
 
 .category_name{
   margin-top: 20px;
@@ -97,13 +97,14 @@ nav {
   
 }
 .title_other_news{
-  display: inline-flex;
+  display: list-item;
+  
 }
 
 .other_news h2{
   margin-left: 15px;
+ 
 }
-
 
 
 .article{
