@@ -47,13 +47,10 @@ nav {
 }
 
 .container {
+  padding: 3em;
   display: grid;
-  grid-template-columns: 300px 300px 300px;
-  grid-gap: 50px;
-  justify-content: center;
-  align-items: center;
-  margin-top: 50px;
-  font-family: "Roboto", sans-serif;
+  grid-gap: 2em;
+  grid-template-columns: repeat(auto-fit, minmax(550px, 3fr));
 }
 
 .card {
@@ -108,3 +105,14 @@ nav {
 }
 
 
+
+.article{
+  padding: 2em;
+  border-radius: 0.3em;
+  box-shadow: 10px 10px 30px rgba(0,0,0,0.1);
+}
+
+.card_image{
+  width: 100px;
+  height: 100px;
+}

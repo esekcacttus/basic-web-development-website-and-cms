@@ -11,7 +11,8 @@
 </head>
 <nav>
     <div>
-        <img class="logo_img" src="../front/images/rilindja.png"
+        <img class="logo_img" src="./rilindjaLogo.svg" />
+    </div>
     <ul class="nav-links">
         <li>
             <a href="./category1.php">Category 1</a>
