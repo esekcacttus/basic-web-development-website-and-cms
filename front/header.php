@@ -11,7 +11,7 @@
 </head>
 <nav>
     <div>
-        <img class="logo_img" src="./rilindjaLogo.svg" . />
+        <img class="logo_img" src="./front/images/rilindjaLogo.svg" . />
     </div>
     <ul class="nav-links">
         <li>
