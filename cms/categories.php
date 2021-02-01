@@ -1,3 +1,14 @@
+<?php
+    session_start();
+    require_once "util.php";
+    // if not logged in then redirect to login.php
+    if (!isUserLoggedIn()) {
+        header("Location: /basic-web-development-website-and-cms/cms/index.php");
+        die();
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,23 +21,9 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Categories</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Posts</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php 
+        include 'navigation.php';
+    ?>
 
     <div class="container pt-4">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add New Category</button>

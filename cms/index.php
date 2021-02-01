@@ -1,33 +1,36 @@
 <?php
-session_start();
-require_once "util.php";
-
-// if logged in then redirect to timeline.php
-if (isUserLoggedIn()) {
-    header("Location: /social-network-db/timeline.php");
-    die();
-}
+    session_start();
+    require_once "util.php";
+    
+    if(isUserLoggedIn()){
+        header("Location: /basic-web-development-website-and-cms/cms/categories.php");
+        die();
+    }
 ?>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Cacttus Social Network</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 </head>
-
 <body>
-    <center>
-        <img width="400" src="https://cacttus.education/wp-content/uploads/2019/07/fb_CACTTUS_logo.png"> </img>
-        <form method="POST" action="/social-network-db/login_logic.php">
-            <label>E-mail:</label><br>
-            <input type="email" name="email" /><br>
-            <label>Password:</label><br>
-            <input type="password" name="password" /><br><br>
-            <input type="submit" value="Log In" />
+    <div style="position: absolute; top: 15vh" class="row container-fluid justify-content-center ">
+        <form  onsubmit="return login();" class="col-3 "  style="border: 1px solid gray; padding: 40px; border-radius: 15px;">
+            <div class="mb-3 mt-7">
+                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                <input type="email" name="email" class="form-control" id="email" placeholder="example@example.com" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" placeholder="**********" id="password">
+            </div>  
+            <button type="submit" class="btn btn-primary">Log in</button><br><br>
+            <a href="/basic-web-development-website-and-cms/cms/register.php">Click here to register</a>
         </form>
-        <br>
-        <a href="/social-network-db/forget_password.php">Forget password?</a>
-        <a href="/social-network-db/register.php">Create new account!</a>
-    </center>
+    </div>
 </body>
-
+<script src="index.js"></script>
 </html>

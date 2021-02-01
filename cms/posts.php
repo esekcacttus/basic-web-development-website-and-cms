@@ -1,3 +1,12 @@
+<?php
+    session_start();
+    require_once "util.php";
+    // if not logged in then redirect to login.php
+    if (!isUserLoggedIn()) {
+        header("Location: /basic-web-development-website-and-cms/cms/index.php");
+        die();
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,24 +17,9 @@
     <title>Categories</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Categories</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#">Posts</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#">Logout</a>
-            </li>
-        </ul>
-        </div>
-    </div>
-    </nav>
-
+<?php 
+    include 'navigation.php';
+?>
     <div class="container pt-4">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add New Post</button>
     </div>
@@ -46,9 +40,20 @@
                 <div id="title_message"></div>
             </div>
             <div class="mb-3">
-                <label for="exampleInputDescription" class="form-label">Description</label>
-                <textarea class="form-control" name="description" id="description"  col=4></textarea>
-                <div id="description_message"></div>
+                <label for="exampleInputDescription" class="form-label">Content</label>
+                <textarea class="form-control" name="content" id="content"  col=4></textarea>
+                <div id="content_message"></div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputTitle" class="form-label">Image Link</label>
+                <input type="text" class="form-control " name="image"  id="image" aria-describedby="imageHelp">
+                <div id="image_message"></div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputOption" class="form-label">Category</label>
+                <select class="form-select" name="status" id="status" aria-label="Default select example">
+                    <option value="todo">Category</option>
+                </select>
             </div>
             <button type="button" class="btn btn-primary" id="save_category">Save</button>
         </form>

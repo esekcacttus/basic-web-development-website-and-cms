@@ -1,34 +1,47 @@
 <?php
     session_start();
     require_once "util.php";
+    header('Content-Type: application/json');
 
-    // if logged in then redirect to timeline.php
+    if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+        echo json_encode([
+            'success' => false,
+            'message' => 'POST Method HTTP required'
+        ]);
+
+    }
+
     if (isUserLoggedIn()) {
-        header("Location: /social-network-db/timeline.php");
+        echo json_encode([
+            'success' => false,
+            'message' => 'User is already authenticated'
+        ]);
         die();
     }
-    
-    // get the data
-    $firstName = $_POST['first_name'];
-    $lastName  = $_POST['last_name'];
+
+
+    $fullName = $_POST['full_name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
 
     $user = [
-        'first_name' => $firstName,
-        'last_name' => $lastName,
+        'full_name' => $fullName,
         'email' => $email,
         'password' => $password,
-        'posts' => []
     ];
-
     if (doesUserExistByEmail($email)) {
-        echo "This user already exists!";
+        echo json_encode([
+            'success' => false,
+            'message' => 'User already exists'
+        ]);
         die();
     }
 
-    // save to file
-    storeUserToFile($user);
-
-    echo "Welcome to Cacttus Social Network. Please click <a href='/social-network-db/'>here</a> to login!";
+    if(!empty($fullName) && !empty($email) && !empty($password) && checkPassword($password) == true){
+        addUser($user);
+        echo json_encode([
+            'success' => true, 
+            'message' => 'User is stored to database'
+        ]);
+    }
 ?>
