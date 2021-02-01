@@ -43,6 +43,7 @@ CREATE TABLE `posts` (
   `title` varchar(150) NOT NULL,
   `description` longtext NOT NULL,
   `user_id` int(11) NOT NULL,
+  `img_link` varchar(255) NOT NULL,
   `category_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

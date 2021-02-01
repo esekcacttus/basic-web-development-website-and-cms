@@ -2,14 +2,24 @@
     session_start();
 
     require_once "util.php";
+    header('Content-Type: application/json');
 
-    // if logged in then redirect to timeline.php
-    if (isUserLoggedIn()) {
-        header("Location: /social-network-db/timeline.php");
-        die();
+    if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+        echo json_encode([
+            'success' => false,
+            'message' => 'POST Method HTTP required'
+        ]);
+
     }
 
-    // get the data
+
+    if (isUserLoggedIn()) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'User is already authenticated'
+        ]);
+        die();
+    }
     $email = $_POST['email'];
     $password= $_POST['password'];
 
@@ -17,15 +27,23 @@
 
     if($user != null){
         // logged in
-        echo "Logged in!!!";
         $_SESSION['logged_in'] = true;
-        $_SESSION['first_name'] = $user['first_name'];
+        $_SESSION['full_name'] = $user['full_name'];
         $_SESSION['email'] = $email;
-        $_SESSION['user_id'] = $user['id'];
-        header("Location: /social-network-db/timeline.php");
+        $_SESSION['id'] = $user['id'];
+        echo json_encode([
+            'success' => true,
+            'message' => 'Authenticated'
+        ]);
         die();
     }else {
-        echo "Wrong crendentials!!!";
+        
         $_SESSION['logged_in'] = false;
+        echo json_encode([
+            'success' => false,
+            'message' => 'Wrong credentials!!'
+        ]);
     }
+
+
 ?>
