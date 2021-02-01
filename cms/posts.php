@@ -27,7 +27,7 @@
     </nav>
 
     <div class="container pt-4">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add New Category</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add New Post</button>
     </div>
     <div class="container" id="allCategories">
     </div>
@@ -35,7 +35,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add New Category</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Add New Post</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -59,15 +59,13 @@
     <br/>
 <div class="container">
     <ul class=" border border-secondary col-10 list-group list-group-horizontal d-flex justify-content-between">
-    <li class="list-group-item border-0">Category Name</li>
-    <li class="list-group-item border-0 ">Total Posts</li>
+    <li class="list-group-item border-0">Title</li>
     <li class="list-group-item border-0 ">Action</li>
     </ul>
 </div>
 <div class="container mt-2">
     <ul class=" border border-secondary col-10 list-group list-group-horizontal d-flex justify-content-between">
     <li class="list-group-item border-0 ">Lajme</li>
-    <li class="list-group-item border-0 ">10</li>
     <li class="list-group-item border-0 ">
         <button type="button" class="btn btn-primary p-1 " id="btnEdit">Edit</button>
         <button type="button" class="btn btn-danger p-1 ms-1" id="btnDelete">Delete</button>      
