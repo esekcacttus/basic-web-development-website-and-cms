@@ -1,5 +1,7 @@
-<?php include './front/header.php';
+<?php
+    header("Location: front/");
 ?>
+<?php include './front/header.php';?>
 
 <head>
     <meta charset="UTF-8">
@@ -58,5 +60,4 @@
         </div>
     </div>
 </body>
-
 </html>
