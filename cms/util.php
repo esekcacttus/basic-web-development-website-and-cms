@@ -220,6 +220,25 @@ function getAllUserPosts()
         return [];
     }
 }
+
+function storeCategoryToDB($categoryName)
+{
+    global $dbConnection;
+
+    $sqlQuery = "INSERT INTO `category` 
+            (`category_name`) 
+            VALUES (:categoryName);";
+
+    $statement = $dbConnection->prepare($sqlQuery);
+    $statement->bindParam(":categoryName", $categoryName);
+
+    if ($statement->execute()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 /**
  * Returns an encrypted & utf8-encoded
  */
