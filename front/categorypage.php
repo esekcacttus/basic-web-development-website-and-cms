@@ -1,4 +1,5 @@
-<?php include "../front/header.php"; ?>
+<?php include_once "header.php"; ?>
+<?php include_once "util.php"; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,50 +13,30 @@
     <link rel="stylesheet" href="../front/style.css">
 </head>
 <body>
-    <div class="container-fluid">
-    <h3 class="text-left category_name">Category 1</h3>
-    <div class="news_photos_title">
-    <div>
-        <img src="../front/images/vaccine.jpg" alt="foto vaksina" width="200px" height="150px" class="img-fluid" >
-        <h4 class="text-center">"Title example"</h4>
-    </div>
-    <div>
-        <img src="../front/images/vaccine.jpg"alt="foto vaksina" width="200px" height="150px" class="img-fluid" >
-        <h4 class="text-center">"Title example"</h4>
-    </div>
-    <div>
-        <img src="../front/images/vaccine.jpg" alt="foto vaksina" width="200px" height="150px" class="img-fluid" >
-        <h4 class="text-center">"Title example"</h4>
-    </div>
-    <div>
-        <img src="../front/images/vaccine.jpg" alt="foto vaksina" width="200px" height="150px" class="img-fluid" >
-        <h4 class="text-center">"Title example"</h4>
-    </div>
-    <div>
-        <img src="../front/images/vaccine.jpg" alt="foto vaksina" width="200px" height="150px" class="img-fluid" >
-        <h4 class="text-center">"Title example"</h4>
-    </div>
-    </div>
+<?php 
 
-    <div class="other_news">
+$categoryId = $_GET["id"];
+
+$category = getCategoryById($categoryId);
+
+$posts = getPostsByCategoryId($categoryId);
+
+
+?>
+    <div class="container-fluid">
+    <h3 class="text-left category_name"><?php echo $category["category_name"]?></h3>
+    <div class="news_photos_title">
+    <?php
+        foreach($posts as $post){
+    ?>
     <div>
-        <img src="../front/images/vaccine.jpg" alt="foto vaksina" width="100px" height="100px">
-        <h2 class="title_other_news">Title Example</h2>
+        <img src="<?php echo $post["img_link"]  ?>" alt="foto vaksina" width="200px" height="150px" class="img-fluid" >
+        <h4 class="text-center"><?php echo $post["title"] ?></h4>
     </div>
-    <div>
-        <img src="../front/images/vaccine.jpg" alt="foto vaksina" width="100px" height="100px">
-        <h2 class="title_other_news">Title Example</h2>
-    </div>
-    <div>
-        <img src="../front/images/vaccine.jpg" alt="foto vaksina" width="100px" height="100px">
-        <h2 class="title_other_news">Title Example</h2>
-    </div>
-    <div>
-        <img src="../front/images/vaccine.jpg" alt="foto vaksina" width="100px" height="100px">
-        <h2 class="title_other_news">Title Example</h2>
-    </div>
-    </div>
-    </div>
+    <?php 
+        }
+    ?>
+
 
     
     

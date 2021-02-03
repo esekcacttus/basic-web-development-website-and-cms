@@ -38,5 +38,18 @@
         }
     }
 
+    function getCategoryById($categoryId){
+        global $dbConnection;
+        $sqlQuery = "SELECT * FROM `category` WHERE id =:categoryId";
+        $statement = $dbConnection->prepare($sqlQuery);
+        $statement->bindParam(":categoryId", $categoryId);
+        if ($statement->execute()) {
+            return $statement->fetch(PDO::FETCH_ASSOC);
+        } else {
+            return null;
+        }
+
+    }
+
 
 ?>
