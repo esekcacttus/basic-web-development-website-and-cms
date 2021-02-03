@@ -15,7 +15,9 @@
 </head>
 <nav>
     <div>
-        <img class="logo_img" src="images/rilindjaLogo.svg" />
+        <a href="index.php" >
+            <img src="images/rilindjaLogo.svg" class="logo_img">
+         </a>
     </div>
     <ul class="nav-links">
     <?php 
