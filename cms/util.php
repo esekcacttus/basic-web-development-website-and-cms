@@ -68,15 +68,12 @@
         session_destroy();
     }
 
-    function addNewTask(array $task, $userId){
+    function addCategory(array $category){
         global $dbConnection;
-        $sqlQuery = "INSERT INTO `tasks` (`title`,`description`,`status`, `id_user`)
-        VALUES (:title, :description, :status, :userId); ";
+        $sqlQuery = "INSERT INTO `category` (`category_name`)
+        VALUES (:category_name); ";
         $statement = $dbConnection->prepare($sqlQuery);
-        $statement->bindParam(":title", $task['title']);
-        $statement->bindParam(":description", $task['description']);
-        $statement->bindParam(":status", $task['status']);
-        $statement->bindParam(":userId", $userId);
+        $statement->bindParam(":category_name", $category['category_name']);
 
         if($statement->execute()){
             return true;
@@ -92,6 +89,19 @@
         $statement = $dbConnection->prepare($sqlQuery);
         $statement->bindParam(":userId", $userId);
         
+        if($statement->execute()){
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+        else{
+            return [];
+        }
+        
+    }
+
+    function getAllCategories() {
+        global $dbConnection;
+        $sqlQuery = "SELECT * FROM `category`";
+        $statement = $dbConnection->prepare($sqlQuery);
         if($statement->execute()){
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
