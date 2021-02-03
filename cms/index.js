@@ -112,8 +112,6 @@ function checkPassword(password) {
 
 
 //timeline javascript
-
-
 $("#logout").click(function(){
     const endPoint = "http://localhost/basic-web-development-website-and-cms/cms/signout.php";
     $.get(endPoint, function(response){
@@ -121,58 +119,38 @@ $("#logout").click(function(){
     });
 });
 
-// $(document).ready(function(){
-// loadUserTasks();
-// });
+$(document).ready(function(){
+    loadCategories();
+});
 
-// function loadUserTasks(){
-// const taskTemplate = 
-//     '<ul class="list-group pt-2">'+
-//         '<li class="list-group-item" id="line_task_{{line_id_task}}">'+
-//             '<div class="d-flex bd-highlight">'+
-//                 '<div class="p-2 flex-grow-1 ">'+
-//                 '<h5 class="card-title">{{title}}</h5>'+
-//                 '<p class="card-text">{{description}}</p>'+
-//                 '<small class="card-text">Created on: {{created_at}}</small>'+ '&nbsp'+ '&nbsp'+
-//                 '<small class="card-text">Created by: {{created_by}}</small>'+
-//             '</div>'+
-//                 '<div class="p-2">'+
-//                     '<div class="btn-group">'+
-//                         '<select class="form-select mt-4 pl-3 pr-3" id="mySelect" onchange="updateTask({{id_task_update}},{{id_user_update}});" aria-label="Default select example">'+
-//                             '<option value="todo" {{to_do_selected}}>ToDo</option>'+
-//                             '<option value="inProgress" {{inProgress_selected}}>In Progress</option>'+
-//                             '<option value="done" {{done_selected}}>Done</option>'+
-//                         '</select>'+
-//                     '</div>'+
-//                 '</div>'+
-//             '<div class="p-2">'+
-//                 '<button type="button" class="btn btn-danger mt-4 delete" id="btndelete" onclick="deleteTask({{id_task}},{{id_user}})">Delete</button>'+
-//             '</div>'+
-//             '</div>'+
-//         '</li>'+ 
-//     '</ul>';
-// const endPoint = "http://localhost/task_managment_project_web/tasks_api.php";
+function loadCategories(){
+const categoryTemplate = 
+        '<li class="list-group-item" id="id_line_{{id}}">'+
+            '<div class="d-flex bd-highlight">'+
+                '<div class="p-2 flex-grow-1">'+
+                '<h5 class="card-title">{{category_name}}</h5>'+
+            '</div>'+
+            '<div class="d-flex bd-highlight p-2 flex-grow-1 middle">'+
+                '<p class="card-title">10</p>'+
+            '</div>'+
+            '<div class="d-flex bd-highlight middle">'+
+                '<div class="p-2">'+
+                    '<button type="button" class="btn btn-danger delete" id="btndelete" onclick="deleteTask({{id}})">Delete</button>'+
+                    '<button type="button" class="btn btn-secondary ms-2 edit" id="btnedit" onclick="update({{id}})">Edit</button>'+
+                '</div>'+
+        '</li>';
+const endPoint = "http://localhost/basic-web-development-website-and-cms/cms/category_api.php";
 
-// $.get(endPoint, function(response){
-//     let userTasksTemplate = "";
-//     for(let i = 0; i < response.data.length; i++){
-//         const currentTask = response.data[i];
-//         userTasksTemplate += taskTemplate.replace("{{title}}", escapeHtml(currentTask.title))
-//                         .replace("{{description}}", escapeHtml(currentTask.description))
-//                         .replace("{{"+currentTask.status+"_selected}}", "selected")
-//                         .replace("{{created_at}}", currentTask.created_at)
-//                         .replace("{{created_by}}", currentTask.full_name)
-//                         .replace("{{id_task}}", currentTask.id_task)
-//                         .replace("{{id_task_update}}", currentTask.id_task)
-//                         .replace("{{line_id_task}}", currentTask.id_task)
-//                         .replace("{{id_user}}", currentTask.id_user)
-//                         .replace("{{id_user_update}}", currentTask.id_user);
-                       
-                        
-//     };
-//     $("#allTasks").html(userTasksTemplate);
-// }); 
-// }
+$.get(endPoint, function(response){
+    let category = "";
+    for(let i = 0; i < response.data.length; i++){
+        const currentCategory = response.data[i];
+        category += categoryTemplate.replace("{{category_name}}", escapeHtml(currentCategory.category_name))
+                        .replaceAll("{{id}}", currentCategory.id);           
+    };
+    $("#categoryList").html(category);
+}); 
+}
 
 // function updateTask(idTask, idUser){
 //     var new_status = $("#mySelect").val();
@@ -217,85 +195,146 @@ $("#logout").click(function(){
 //     return false;
 // }
 // };
-// function storeTask(){
-// const title = $("#title").val();
-// const description = $("#description").val();
-// const status = $("#status").val();
-// const apiEndpoint = "http://localhost/task_managment_project_web/task_logic.php";
-
+function storeCategory(){
+const category_name = $("#category").val();
+const apiEndpoint = "http://localhost/basic-web-development-website-and-cms/cms/category_logic.php";
+    if(validateInputs() != true){
+        return false;
+    }
     
-//     if(validateInputs() != true){
-//         return false;
-//     }
+    else{
+        $.post(apiEndpoint, {
+            'category_name': category_name
+            
+        }).done(function(response){ 
+            if(response.success == false){
+                alert(response.message);
+            }else{
+                loadCategories();
+                $('#exampleModal').modal('hide');
+                $('#exampleModal').on('hidden.bs.modal', function () {
+                    $(this).find("input").val('').end();
+                });
+            }
+        });
+        return false;
+    }        
+} 
+
+function validateInputs(){
+    const category_name = $("#category").val().trim();
+    if(validateCategory(category_name) != true){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+
+function validateCategory(category_name){
+if(category_name.length < 5){
+    $("#category").css("border-color", "red");
+    $("#category_message").text("Category must be more than 4 charaters!!").css("color", "red").css("font-size", "12px");
+    return false;
+
+}else{
+    $("#category").css("border-color", "green");
+    $("#category_message").text("");
+    return true;
+}
+}
+
+function storePost(){
+    const title = $("#title").val();
+    const content = $("#content").val();
+    const image = $("#image").val();
+    const category = $("#category").val();
+
+    const apiEndpoint = "http://localhost/basic-web-development-website-and-cms/cms/post_logic.php";
+        if(validatePostInputs() != true){
+            return false;
+        }
+        
+        else{
+            $.post(apiEndpoint, {
+                'category_name': category_name
+                
+            }).done(function(response){ 
+                if(response.success == false){
+                    alert(response.message);
+                }else{
+                    loadCategories();
+                    $('#exampleModal').modal('hide');
+                    $('#exampleModal').on('hidden.bs.modal', function () {
+                        $(this).find("input").val('').end();
+                    });
+                }
+            });
+            return false;
+        }        
+    } 
     
-//     else{
-//         $.post(apiEndpoint, {
-//             'title': title,
-//             'description': description,
-//             'status': status
-//         }).done(function(response){ 
-//             if(response.success == false){
-//                 alert(response.message);
-//             }else{
-//                 loadUserTasks();
-//                 $('#exampleModal').modal('hide');
-//                 $('#exampleModal').on('hidden.bs.modal', function () {
-//                     $(this).find("input,textarea").val('').end();
-//                 });
-//             }
-//         });
-//         return false;
-//     }        
-// } 
+    function validatePostInputs(){
+        const title = $("#title").val();
+        const content = $("#content").val();
+        const image = $("#image").val();
 
-// function validateInputs(){
-// const title = $("#title").val().trim();
-// const description = $("#description").val().trim();
-// const status = $("#status").val();
 
-// if(validateTitle(title) != true || validateDescription(description) != true){
-//     return false;
-// }
-// else{
-//     return true;
-// }
-// }
+    if(validateTitle(title) != true || validateContent(content) != true || validateImageLink(image) != true){
+        return false;
+    }
+    else{
+        return true;
+    }
+    }
 
-// function validateTitle(title){
-// if(title.length < 5){
-//     $("#title").css("border-color", "red");
-//     $("#title_message").text("Title must be more than 4 charaters!!").css("color", "red").css("font-size", "12px");
-//     return false;
+    function validateTitle(title){
+        if(title.length < 5){
+            $("#title").css("border-color", "red");
+            $("#title_message").text("Title must be more than 4 charaters!!").css("color", "red").css("font-size", "12px");
+            return false;
+        
+        }else{
+            $("#title").css("border-color", "green");
+            $("#title_message").text("");
+            return true;
+        }
+        }
+    function validateContent(content){
+        if(content.length < 5){
+            $("#content").css("border-color", "red");
+            $("#content_message").text("Content must be more than 4 charaters!!").css("color", "red").css("font-size", "12px");
+            return false;
+            
+        }else{
+            $("#content").css("border-color", "green");
+            $("#content_message").text("");
+            return true;
+         }
+    }
+    function validateImageLink(imgLink){
+        if(imgLink == "" ){
+            $("#image").css("border-color", "red");
+            $("#image_message").text("Image link required!!").css("color", "red").css("font-size", "12px");
+            return false;
+            
+        }else{
+            $("#image").css("border-color", "green");
+            $("#image_message").text("");
+            return true;
+         }
+    }
 
-// }else{
-//     $("#title").css("border-color", "green");
-//     $("#title_message").text("");
-//     return true;
-// }
 
-// }
-
-// function validateDescription(description){
-// if(description.length < 7){
-//     $("#description").css("border-color", "red");
-//     $("#description_message").text("Description must be more than 6 characters!!").css("color", "red").css("font-size", "12px");
-//     return false;
-// }else{
-//     $("#description").css("border-color", "green");
-//     $("#description_message").text("");
-//     return true;
-// } 
-// }
-
-// function escapeHtml(str) {
-// var map = {
-//     '&': '&amp;',
-//     '<': '&lt;',
-//     '>': '&gt;',
-//     '"': '&quot;',
-//     "'": '&#039;'
-// };
-// return str.replace(/[&<>"']/g, function(m) {
-//     return map[m];
-// });
-// }
+function escapeHtml(str) {
+var map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+};
+return str.replace(/[&<>"']/g, function(m) {
+    return map[m];
+});
+}
