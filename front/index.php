@@ -1,50 +1,28 @@
 <?php include 'header.php';?>
 
-<h1 class="category_title">Category 1</h1>
-<div class="container">
-    <div class="article">
-        <img class="card_image" src="images/default-placeholder.png"></img>
-        <h3>The title of the post</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-    </div>
-    <div class="article">
-        <img class="card_image" src="images/default-placeholder.png"></img>
-        <h3>The title of the post</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-    </div>
-    <div class="article">
-        <img class="card_image" src="images/default-placeholder.png"></img>
-        <h3>The title of the post</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-    </div>
-    <div class="article">
-        <img class="card_image" src="images/default-placeholder.png"></img>
-        <h3>The title of the post</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-    </div>
-    <div class="article">
-        <img class="card_image" src="front/images/default-placeholder.png"></img>
-        <h3>The title of the post</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-    </div>
-    <div class="article">
-        <img class="card_image" src="front/images/default-placeholder.png"></img>
-        <h3>The title of the post</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-    </div>
-</div>
 <?php
+    foreach($categories as $category){
+        
+        $categoryPosts = getPostsByCategoryId($category['id']);
+        if(empty($categoryPosts)){
+            continue;
+        }
+?>
+    <h1 class="category_title"><?php echo $category['category_name'] ?></h1>
+
+    <div class="container">
+    <?php
+        foreach($categoryPosts as $post){
+    ?>
+        <div class="article">
+            <img class="card_image" src="<?php echo $post['img_link'] ?>"></img>
+            <h3><?php echo $post['title'] ?></h3>
+            <p><?php echo $post['description'] ?> </p>
+        </div>
+        
+    <?php } ?>
+    </div>
+<?php
+}
 include "footer.php"
 ?>
