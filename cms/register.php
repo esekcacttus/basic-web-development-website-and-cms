@@ -4,33 +4,43 @@ require_once "util.php";
 
 // if logged in then redirect to timeline.php
 if (isUserLoggedIn()) {
-    header("Location: /social-network-db/timeline.php");
+    header("Location: /basic-web-development-website-and-cms/cms/categories.php");
     die();
 }
 ?>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Cacttus Social Network | Register</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 </head>
-
 <body>
-    <center>
-        <img width="400" src="https://cacttus.education/wp-content/uploads/2019/07/fb_CACTTUS_logo.png"> </img>
-        <form method="POST" action="/social-network-db/register_logic.php">
-            <label>First Name:</label><br>
-            <input type="text" name="first_name" /><br>
-            <label>Last Name:</label><br>
-            <input type="text" name="last_name" /><br>
-            <label>E-mail:</label><br>
-            <input type="email" name="email" /><br>
-            <label>Password:</label><br>
-            <input type="password" name="password" /><br><br>
-            <input type="submit" value="Register" />
+    <div onkeyup="validatedInputs();" style="position: absolute; top: 15vh" class="row container-fluid justify-content-center ">
+        <form class="col-3 " id="register_form" style="border: 1px solid gray; padding: 50px; border-radius: 15px;">
+            <div class="mb-3 mt-7">
+                <label for="fullName" class="form-label">Full Name</label>
+                <input type="text" class="form-control name"  required id="full_name" placeholder="Your full name..." aria-describedby="fullNameHelp">
+                <div id="name_message"></div>
+            </div>
+            <div class="mb-3 mt-7">
+                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                <input type="email" class="form-control email" required name="email" id="email" placeholder="example@example.com" aria-describedby="emailHelp">
+                <div id="email_message"></div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control password" name="password" placeholder="Example*123" id="password">
+                <div id="password_message"></div>
+            </div>
+            <button type="button" class="btn btn-primary" id="btnRegister">Register</button><br><br>
+            <small id="message"></small><br>
+            <a href="/basic-web-development-website-and-cms/cms/index.php">Click here to login</a>
         </form>
-        <br>
-        <a href="/social-network-db/">Login if you already have an account!</a>
-    </center>
+    </div>
 </body>
 
+<script src="index.js"></script>
 </html>

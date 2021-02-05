@@ -1,3 +1,7 @@
+<?php 
+    require_once "util.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,21 +15,19 @@
 </head>
 <nav>
     <div>
-        <img class="logo_img" src="images/rilindjaLogo.svg" />
+        <a href="index.php" >
+            <img src="images/rilindjaLogo.svg" class="logo_img">
+         </a>
     </div>
     <ul class="nav-links">
-        <li>
-            <a href="./category1.php">Category 1</a>
-        </li>
-        <li>
-            <a href="./category2.php">Category 2</a>
-        </li>
-        <li>
-            <a href="./category3.php">Category 3</a>
-        </li>
-        <li>
-            <a href="./category4.php">Category 4</a>
-        </li>
+    <?php 
+        $categories = getAllCategories();
+        foreach ($categories as $category) {
+            echo '<li>
+                    <a href="categorypage.php?id='.$category['id'].'">'.$category['category_name'].'</a>
+                 </li>';
+        }
+    ?>
     </ul>
 </nav>
 
