@@ -73,7 +73,7 @@ nav {
 .news_photos_title{
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
   margin-top: 50px;
   margin-bottom: 50px;
 }
@@ -81,15 +81,10 @@ nav {
 .other_news{
   display: flex;
   flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-top: 50px;
   
 }
-.title_other_news{
-  display: inline-flex;
-}
 
-.other_news h2{
-  margin-left: 15px;
-}
+
+

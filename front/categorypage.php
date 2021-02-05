@@ -24,19 +24,35 @@ $posts = getPostsByCategoryId($categoryId);
 
 ?>
     <div class="container-fluid">
-    <h3 class="text-left category_name"><?php echo $category["category_name"]?></h3>
+        <h3 class="text-left category_name"><?php echo $category["category_name"]?></h3>
     <div class="news_photos_title">
     <?php
         foreach($posts as $post){
     ?>
     <div>
         <img src="<?php echo $post["img_link"]  ?>" alt="foto vaksina" width="200px" height="150px" class="img-fluid" >
-        <h4 class="text-center"><?php echo $post["title"] ?></h4>
+        <h4 class="text-center" ><?php echo $post["title"]  ?></h4>
     </div>
     <?php 
         }
     ?>
 
+    </div>
+
+
+
+    <div class="other_news">
+    <?php
+        foreach($posts as $post){
+    ?>
+
+        <img src="<?php echo $post["img_link"]  ?>" alt="foto vaksina" width="100px" height="100px">
+        <h2><?php echo $post["title"]  ?></h2>
+    </div>
+    <?php 
+        }
+    ?> 
+  
 
     
     
