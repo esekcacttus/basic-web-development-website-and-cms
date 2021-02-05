@@ -18,6 +18,7 @@
             <img class="card_image" src="<?php echo $post['img_link'] ?>"></img>
             <h3><?php echo $post['title'] ?></h3>
             <p><?php echo $post['description'] ?> </p>
+            <a href="single_page?id=<?php echo $post['category_id']?>">Read more...</a>
         </div>
         
     <?php } ?>
