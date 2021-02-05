@@ -119,11 +119,47 @@ $("#logout").click(function(){
     });
 });
 
+
+//load posts function
+$(document).ready(function(){
+    loadPosts();
+});
+
+function loadPosts(){
+const postTemplate = 
+    '<li class="list-group-item" id="id_line_{{id}}">'+
+    '<div class="d-flex bd-highlight">'+
+        '<div class="p-2 flex-grow-1">'+
+        '<h5 class="card-title">{{title}}</h5>'+
+    '</div>'+
+    '<div class="d-flex bd-highlight middle">'+
+        '<div class="p-2">'+
+            '<button type="button" class="btn btn-danger delete" id="btndelete" onclick="deleteTask({{id}})">Delete</button>'+
+            '<button type="button" class="btn btn-secondary ms-2 edit" id="btnedit" onclick="update({{id}})">Edit</button>'+
+        '</div>'+
+    '</li>';
+
+const categoryId = $("#category_id").val();
+const endPoint = "http://localhost/basic-web-development-website-and-cms/cms/post_api.php?categoryId="+categoryId;
+
+$.get(endPoint, function(response){
+    let post = "";
+    for(let i = 0; i < response.data.length; i++){
+        const currentPost = response.data[i];
+        post += postTemplate.replace("{{title}}", currentPost.title)
+                        .replaceAll("{{id}}", currentPost.id);           
+    };
+    $("#postList").html(post);
+}); 
+}
+
+//load posts function
 $(document).ready(function(){
     loadCategories();
 });
 
 function loadCategories(){
+    
 const categoryTemplate = 
         '<li class="list-group-item" id="id_line_{{id}}">'+
             '<div class="d-flex bd-highlight">'+
@@ -131,7 +167,7 @@ const categoryTemplate =
                 '<h5 class="card-title">{{category_name}}</h5>'+
             '</div>'+
             '<div class="d-flex bd-highlight p-2 flex-grow-1 middle">'+
-                '<p class="card-title">10</p>'+
+                '<p class="card-title">{{total_posts}}</p>'+
             '</div>'+
             '<div class="d-flex bd-highlight middle">'+
                 '<div class="p-2">'+
@@ -145,13 +181,13 @@ $.get(endPoint, function(response){
     let category = "";
     for(let i = 0; i < response.data.length; i++){
         const currentCategory = response.data[i];
-        category += categoryTemplate.replace("{{category_name}}", escapeHtml(currentCategory.category_name))
-                        .replaceAll("{{id}}", currentCategory.id);           
+        category += categoryTemplate.replace("{{category_name}}", currentCategory.category_name)
+                        .replaceAll("{{id}}", currentCategory.id)
+                        .replaceAll("{{total_posts}}", currentCategory.total_posts);           
     };
     $("#categoryList").html(category);
 }); 
 }
-
 // function updateTask(idTask, idUser){
 //     var new_status = $("#mySelect").val();
 //     var id_task = idTask;
@@ -222,7 +258,7 @@ const apiEndpoint = "http://localhost/basic-web-development-website-and-cms/cms/
 } 
 
 function validateInputs(){
-    const category_name = $("#category").val().trim();
+    const category_name = $("#category").val();
     if(validateCategory(category_name) != true){
         return false;
     }
@@ -232,24 +268,23 @@ function validateInputs(){
 }
 
 function validateCategory(category_name){
-if(category_name.length < 5){
-    $("#category").css("border-color", "red");
-    $("#category_message").text("Category must be more than 4 charaters!!").css("color", "red").css("font-size", "12px");
-    return false;
+    if(category_name.length < 5){
+        $("#category").css("border-color", "red");
+        $("#category_message").text("Category must be more than 4 charaters!!").css("color", "red").css("font-size", "12px");
+        return false;
 
-}else{
-    $("#category").css("border-color", "green");
-    $("#category_message").text("");
-    return true;
-}
+    }else{
+        $("#category").css("border-color", "green");
+        $("#category_message").text("");
+        return true;
+    }
 }
 
 function storePost(){
     const title = $("#title").val();
-    const content = $("#content").val();
-    const image = $("#image").val();
-    const category = $("#category").val();
-
+    const description = $("#description").val();
+    const image = $("#img_link").val();
+    const category_id = $("#id_category").val();
     const apiEndpoint = "http://localhost/basic-web-development-website-and-cms/cms/post_logic.php";
         if(validatePostInputs() != true){
             return false;
@@ -257,16 +292,19 @@ function storePost(){
         
         else{
             $.post(apiEndpoint, {
-                'category_name': category_name
+                'title': title,
+                'description': description,
+                'img_link': image,
+                'category_id': category_id
                 
             }).done(function(response){ 
                 if(response.success == false){
                     alert(response.message);
                 }else{
-                    loadCategories();
+                    loadPosts();
                     $('#exampleModal').modal('hide');
                     $('#exampleModal').on('hidden.bs.modal', function () {
-                        $(this).find("input").val('').end();
+                        $(this).find("input, textarea").val('').end();
                     });
                 }
             });
@@ -276,16 +314,14 @@ function storePost(){
     
     function validatePostInputs(){
         const title = $("#title").val();
-        const content = $("#content").val();
-        const image = $("#image").val();
-
-
-    if(validateTitle(title) != true || validateContent(content) != true || validateImageLink(image) != true){
-        return false;
-    }
-    else{
-        return true;
-    }
+        const description = $("#description").val();
+        const image = $("#img_link").val();
+        if(validateTitle(title) != true || validateContent(description) != true || validateImageLink(image) != true){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
     function validateTitle(title){
@@ -300,41 +336,40 @@ function storePost(){
             return true;
         }
         }
-    function validateContent(content){
-        if(content.length < 5){
-            $("#content").css("border-color", "red");
-            $("#content_message").text("Content must be more than 4 charaters!!").css("color", "red").css("font-size", "12px");
+    function validateContent(description){
+        if(description.length < 5){
+            $("#description").css("border-color", "red");
+            $("#description_message").text("Content must be more than 4 charaters!!").css("color", "red").css("font-size", "12px");
             return false;
             
         }else{
-            $("#content").css("border-color", "green");
-            $("#content_message").text("");
+            $("#description").css("border-color", "green");
+            $("#description_message").text("");
             return true;
          }
     }
     function validateImageLink(imgLink){
         if(imgLink == "" ){
-            $("#image").css("border-color", "red");
-            $("#image_message").text("Image link required!!").css("color", "red").css("font-size", "12px");
+            $("#img_link").css("border-color", "red");
+            $("#img_link_message").text("Image link required!!").css("color", "red").css("font-size", "12px");
             return false;
             
         }else{
-            $("#image").css("border-color", "green");
-            $("#image_message").text("");
+            $("#img_link").css("border-color", "green");
+            $("#img_link_message").text("");
             return true;
          }
     }
 
 
-function escapeHtml(str) {
-var map = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;'
-};
-return str.replace(/[&<>"']/g, function(m) {
-    return map[m];
-});
-}
+// function escapeHtml(str) {
+// var map = {
+//     '&': '&amp;',
+//     '<': '&lt;',
+//     '>': '&gt;',
+//     '"': '&quot;',
+//     "'": '&#039;'
+// };
+// return str.replace(/[&<>"']/g, function(m) {
+//     return map[m];
+// });

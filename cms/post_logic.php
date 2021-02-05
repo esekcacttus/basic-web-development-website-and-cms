@@ -19,19 +19,26 @@ header('Content-Type: application/json');
         die();
     }
 
-$post = $_POST['category_name'];
+$title = $_POST['title'];
+$description = $_POST['description'];
+$image = $_POST['img_link'];
+$category = $_POST['category_id'];
 $userId = $_SESSION['id'];
 
 $post = [
-    'category_name' => $category_name
+    'title' => $title,
+    'description' => $description,
+    'img_link' => $image,
+    'category_id' => $category,
+    'user_id' => $userId
 ];
+// $test = postsOfCategory(1);
+//     echo "<pre>";
+//     var_dump(postsOfCategory(1));
+//     die();
 
-    // echo "<pre>";
-    // var_dump($category);
-    // die();
+addPost($post);
 
-
-addCategory($category);
 echo json_encode([]);
 
 ?>

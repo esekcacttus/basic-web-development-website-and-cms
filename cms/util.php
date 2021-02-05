@@ -82,6 +82,25 @@
         }
     }
 
+    //add post function
+    function addPost(array $post){
+        global $dbConnection;
+        $sqlQuery = "INSERT INTO `posts` (`title`, `description`, `user_id`, `img_link`, `category_id`)
+        VALUES(:title, :description, :user_id, :img_link, :category_id);";
+        $statement = $dbConnection->prepare($sqlQuery);
+        $statement->bindParam(":title", $post['title']);
+        $statement->bindParam(":description", $post['description']);
+        $statement->bindParam(":user_id", $post['user_id']);
+        $statement->bindParam(":img_link", $post['img_link']);
+        $statement->bindParam(":category_id", $post['category_id']);
+
+        if($statement->execute()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     function getUserTasks($userId) {
         global $dbConnection;
 
@@ -100,7 +119,34 @@
 
     function getAllCategories() {
         global $dbConnection;
-        $sqlQuery = "SELECT * FROM `category`";
+        $sqlQuery = "SELECT *, (SELECT COUNT(*) FROM posts WHERE category_id=`category`.id) as total_posts FROM `category`";
+        $statement = $dbConnection->prepare($sqlQuery);
+        if($statement->execute()){
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+        else{
+            return [];
+        }
+        
+    }
+
+    function loadCategoryPosts($category_id){
+        global $dbConnection;
+        $sqlQuery = "SELECT * FROM `posts` WHERE category_id =:category_id";
+        $statement = $dbConnection->prepare($sqlQuery);
+        $statement->bindParam(":category_id", $category_id);
+        if($statement->execute()){
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+        else{
+            return [];
+        }
+        
+    }
+
+    function getAllPosts(){
+        global $dbConnection;
+        $sqlQuery = "SELECT * FROM `posts`;";
         $statement = $dbConnection->prepare($sqlQuery);
         if($statement->execute()){
             return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -141,6 +187,20 @@
         }
     }
 
+    function postsOfCategory($id_category){
+        global $dbConnection;
+        $totalPosts = 0;
+        $sqlQuery = "SELECT COUNT(category_id) FROM posts WHERE category_id=:category_id;";
+        $statement = $dbConnection->prepare($sqlQuery);
+        $statement->bindParam(":category_id", $id_category);
+        if($statement->execute()){
+            $totalPosts = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $totalPosts[0];
+        }else{
+            return false;
+        }
+    }
+
 
     function checkPassword($password) { 
         $passwordTemplate = '/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/';
@@ -151,5 +211,7 @@
             return false;
         }
     }
+
+
 
 ?>
